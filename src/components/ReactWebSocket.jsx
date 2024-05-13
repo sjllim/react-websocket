@@ -3,8 +3,14 @@ import { useEffect } from "react";
 import useWebSocket from "react-use-websocket";
 
 export const ReactWebSocket = () => {
-    const [sessionId, setSessionId] = useState(0);
+
+    // WebSocket 연결
     const { sendMessage, lastMessage } = useWebSocket("ws://localhost:8080/chatting/1");
+
+    // session 아이디 저장용
+    const [sessionId, setSessionId] = useState(0);
+
+    // 메시지 이력 저장용
     const [messageHistory, setMessageHistory] = useState([]);
     const [msgList, setMsgList] = useState([]);
 
@@ -26,12 +32,9 @@ export const ReactWebSocket = () => {
             });
         }
     }, [lastMessage, setMessageHistory]);
-
-    useEffect(()=>{
-        console.log(msgList);
-    }, [msgList])
     
-    const sendTestMessage = ()=>{        
+    const sendTestMessage = ()=>{
+        // 연결된 웹소켓으로 메시지 전송
         sendMessage(JSON.stringify({
             type: 'message',
             roomNumber: 1,
